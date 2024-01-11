@@ -1,0 +1,23 @@
+.container{
+  display: flex;
+  flex-direction: column;
+}
+.header{
+  padding: 0 24px;
+  .left{
+    float: left;
+  }
+  .right{
+    float: right;
+  }
+}
+.content{
+  flex:1;
+  min-height: calc(100vh - 64px - 64px);
+  background-color: #fff;
+}
+.footer{
+  text-align: center;
+  background-color: #f7f7f7;
+  border-top: 1 solid #e8e8e8;
+}
