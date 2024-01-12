@@ -3,10 +3,10 @@ name: Release
 on:
   push:
     branches:
-      - webapp
+      - webAdmin
   pull_request:
     branches:
-      - webapp
+      - webAdmin
     paths:
       - '**/package.json'
       - '**/yarn.lock'
@@ -15,18 +15,18 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/webapp' || github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.ref == 'refs/heads/webAdmin' || github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # 确保获取所有的Git历史记录
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-        
+
       - name: Install dependencies
         run: npm install
 
