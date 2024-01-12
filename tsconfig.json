@@ -19,7 +19,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    // ++ 这里加上baseUrl 和 path即可 ++
+    "baseUrl": "./",
+    "paths": {
+      // 根据别名配置相关路径
+      "@/*":["src/*"]
+    }
   },
   "include": ["src","test"],
   "references": [{ "path": "./tsconfig.node.json" }]
