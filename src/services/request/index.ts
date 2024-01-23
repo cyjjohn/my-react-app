@@ -2,11 +2,12 @@ import { getToken } from '@/utils/token'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { BASE_URL, TIMEOUT } from './config'
 
-export interface ResType {
-  errno: number
-  data?: ResDataType
-  msg?: string
-}
+//根据实际后台标准数据来定义
+// export interface ResType {
+//   errno: number
+//   data?: ResDataType
+//   msg?: string
+// }
 
 export type ResDataType = Record<string, unknown>
 
@@ -41,13 +42,14 @@ class Request {
 
     this.instance.interceptors.response.use(
       res => {
-        const { errno, data, msg } = res.data as ResType
-        if (errno !== 0) {
+        const { status, statusText } = res
+        if (status >= 400) {
           //根据需要改为其他可视化报错
-          console.error(msg ?? 'An unknown error occurred')
-          return Promise.reject(new Error(msg ?? 'An unknown error occurred'))
+          console.error(statusText ?? 'An unknown error occurred')
+          return Promise.reject(new Error(statusText ?? 'An unknown error occurred'))
         }
-        return data!
+        //如果后台json数据有标准格式可再细化返回res.data中的内容
+        return res.data as ResDataType
       },
       err => Promise.reject(err),
     )

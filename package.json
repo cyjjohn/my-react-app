@@ -18,13 +18,16 @@
     "test": "vitest --watch=false"
   },
   "dependencies": {
+    "ahooks": "^3.7.8",
     "axios": "^1.6.5",
     "classnames": "^2.5.1",
+    "immer": "^10.0.3",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.4",
