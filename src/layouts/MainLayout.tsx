@@ -1,13 +1,15 @@
 import { FC, memo } from 'react'
 import { Outlet } from 'react-router-dom'
 import s from './MainLayout.module.scss'
+import Logo from '@/components/Logo'
 
 const MainLayout: FC = memo(() => {
   return (
     <div className={s.container}>
       <header className={s.header}>
         <div className={s.left}>
-          <div className="logo">logo</div>
+          <Logo />
+          <div>menu</div>
         </div>
         <div className={s.right}>
           <div className="userinfo">用户</div>
