@@ -8,24 +8,25 @@ import Project from '@/pages/Project/index.tsx'
 
 const router = createBrowserRouter([
   {
-    // path: '/',
+    path: '/',
     element: <MainLayout />,
     children: [
       {
-        path: '/projects',
+        //项目列表页面
+        path: 'project',
+        index: true,
+        element: <Project />,
+      },
+      {
+        path: 'project/:id',
         element: <LeftRightLayout />,
         children: [
           {
-            //项目列表页面
-            path: '',
-            element: <Project />,
-          },
-          {
-            path: ':id/kanban',
+            path: 'kanban',
             element: <Home />,
           },
           {
-            path: ':id/epic',
+            path: 'epic',
             element: <Home />,
           },
         ],

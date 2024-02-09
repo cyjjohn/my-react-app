@@ -2,6 +2,7 @@ import { FC, memo } from 'react'
 import { Outlet } from 'react-router-dom'
 import s from './MainLayout.module.scss'
 import Logo from '@/components/Logo'
+import PopoverList from '@/components/PopoverList'
 
 const MainLayout: FC = memo(() => {
   return (
@@ -9,7 +10,7 @@ const MainLayout: FC = memo(() => {
       <header className={s.header}>
         <div className={s.left}>
           <Logo />
-          <div>menu</div>
+          <PopoverList />
         </div>
         <div className={s.right}>
           <div className="userinfo">用户</div>
