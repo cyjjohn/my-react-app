@@ -7,6 +7,10 @@ import Logo from '@/assets/register-logo.svg'
 const Login: FC = memo(() => {
   const [form] = Form.useForm()
 
+  const onFinish = (values: unknown) => {
+    console.log(values)
+  }
+
   return (
     <LoginWrapper>
       <div className="container">
@@ -14,13 +18,13 @@ const Login: FC = memo(() => {
           <img src={Logo} alt="jira" />
         </div>
         <div className="content">
-          <Form form={form} className="form">
+          <Form form={form} className="form" onFinish={onFinish}>
             <h2>请登录</h2>
             <p>登录界面</p>
-            <Form.Item>
+            <Form.Item name="username" rules={[{ required: true, message: '请输入用户名!' }]}>
               <Input type="text" placeholder="用户名" />
             </Form.Item>
-            <Form.Item>
+            <Form.Item name="password" rules={[{ required: true, message: '请输入密码!' }]}>
               <Input type="password" placeholder="密码" />
             </Form.Item>
             <Form.Item>

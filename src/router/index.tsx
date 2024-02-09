@@ -1,10 +1,12 @@
+import LeftRightLayout from '@/layouts/LeftRightLayout.tsx'
+import Epic from '@/pages/Epic/index.tsx'
+import Kanban from '@/pages/Kanban/index.tsx'
+import Login from '@/pages/Login/index.tsx'
+import Project from '@/pages/Project/index.tsx'
+import Register from '@/pages/Register/index.tsx'
 import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
-import { Home, NotFound } from './Lazy.tsx'
-import Login from '@/pages/Login/index.tsx'
-import Register from '@/pages/Register/index.tsx'
-import LeftRightLayout from '@/layouts/LeftRightLayout.tsx'
-import Project from '@/pages/Project/index.tsx'
+import { NotFound } from './Lazy.tsx'
 
 const router = createBrowserRouter([
   {
@@ -23,11 +25,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'kanban',
-            element: <Home />,
+            element: <Kanban />,
           },
           {
             path: 'epic',
-            element: <Home />,
+            element: <Epic />,
           },
         ],
       },
