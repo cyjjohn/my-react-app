@@ -7,24 +7,18 @@ import {
 } from '@ant-design/pro-components'
 import { Tabs, message, theme } from 'antd'
 import { useState } from 'react'
+import styles from './index.module.less'
 
 type LoginType = 'phone' | 'account'
 
-export const Page = () => {
+export const Login = () => {
   const [loginType, setLoginType] = useState<LoginType>('phone')
   const { token } = theme.useToken()
   return (
-    <div
-      style={{
-        backgroundColor: 'white',
-        height: '100vh',
-      }}
-    >
+    <div className={styles.container}>
       <LoginFormPage
-        backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
-        logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
-        backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
-        title={'水滴后台'}
+        backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.pnghttps://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
+        logo="http://water-drop-assets.oss-cn-hangzhou.aliyuncs.com/images/henglogo.png"
       >
         <Tabs
           centered
@@ -162,3 +156,5 @@ export const Page = () => {
     </div>
   )
 }
+
+export default Login
