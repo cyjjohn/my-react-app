@@ -1,6 +1,19 @@
 import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
 import { Home, NotFound } from './Lazy.tsx'
+import Login from '@/pages/Login/index.tsx'
+import My from '@/pages/My/index.tsx'
+
+export const ROUTE_KEY = {
+  HOME: 'home',
+  MY: 'my',
+  ORG: 'org',
+  COURSE: 'course',
+  STUDENT: 'student',
+  NO_ORG: 'noOrg',
+  PAGE_404: 'p404',
+  LOGIN: 'login',
+}
 
 const router = createBrowserRouter([
   {
@@ -8,8 +21,32 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: '/',
+        path: ROUTE_KEY.HOME,
         element: <Home />,
+      },
+      {
+        path: ROUTE_KEY.MY,
+        element: <My />,
+      },
+      {
+        path: ROUTE_KEY.ORG,
+        element: <Home />,
+      },
+      {
+        path: ROUTE_KEY.COURSE,
+        element: <Home />,
+      },
+      {
+        path: ROUTE_KEY.NO_ORG,
+        element: <Home />,
+      },
+      {
+        path: ROUTE_KEY.STUDENT,
+        element: <Home />,
+      },
+      {
+        path: ROUTE_KEY.LOGIN,
+        element: <Login />,
       },
     ],
   },
