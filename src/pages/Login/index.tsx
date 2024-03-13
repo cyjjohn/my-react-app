@@ -1,80 +1,78 @@
-import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons'
+import { LockOutlined, MobileOutlined, WechatOutlined } from '@ant-design/icons'
 import {
   LoginFormPage,
   ProFormCaptcha,
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components'
-import { Tabs, message, theme } from 'antd'
+import { Divider, Space, Tabs, message, theme } from 'antd'
 import { useState } from 'react'
 import styles from './index.module.less'
+import { useMutation } from '@apollo/client'
+import { LOGIN, SEND_CODE_MSG } from '@/graphql/auth'
 
 type LoginType = 'phone' | 'account'
+interface LoginValues {
+  tel: string
+  code: string
+}
+const Actions = () => {
+  const { token } = theme.useToken()
+  return (
+    <div className={styles.actions}>
+      <Divider plain>
+        <span
+          style={{
+            color: token.colorTextPlaceholder,
+            fontWeight: 'normal',
+            fontSize: 14,
+          }}
+        >
+          其他登录方式
+        </span>
+      </Divider>
+      <Space align="center" size={24}>
+        <div>
+          <WechatOutlined className={styles.wechat} />
+        </div>
+      </Space>
+    </div>
+  )
+}
 
 export const Login = () => {
+  const [sendMsg] = useMutation(SEND_CODE_MSG)
+  const [login] = useMutation(LOGIN)
   const [loginType, setLoginType] = useState<LoginType>('phone')
   const { token } = theme.useToken()
+
+  const loginHandler = async (values: LoginValues) => {
+    const res = await login({
+      variables: values,
+    })
+    const { code, message } = res.data.login
+    if (code === 200) {
+      message.success(message)
+    } else {
+      message.error(message)
+    }
+  }
   return (
     <div className={styles.container}>
       <LoginFormPage
         backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.pnghttps://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
         logo="http://water-drop-assets.oss-cn-hangzhou.aliyuncs.com/images/henglogo.png"
+        actions={<Actions />}
+        onFinish={loginHandler}
       >
         <Tabs
           centered
           activeKey={loginType}
           onChange={activeKey => setLoginType(activeKey as LoginType)}
         >
-          <Tabs.TabPane key={'account'} tab={'账号密码登录'} />
           <Tabs.TabPane key={'phone'} tab={'手机号登录'} />
         </Tabs>
-        {loginType === 'account' && (
-          <>
-            <ProFormText
-              name="username"
-              fieldProps={{
-                size: 'large',
-                prefix: (
-                  <UserOutlined
-                    style={{
-                      color: token.colorText,
-                    }}
-                    className={'prefixIcon'}
-                  />
-                ),
-              }}
-              placeholder={'用户名: admin or user'}
-              rules={[
-                {
-                  required: true,
-                  message: '请输入用户名!',
-                },
-              ]}
-            />
-            <ProFormText.Password
-              name="password"
-              fieldProps={{
-                size: 'large',
-                prefix: (
-                  <LockOutlined
-                    style={{
-                      color: token.colorText,
-                    }}
-                    className={'prefixIcon'}
-                  />
-                ),
-              }}
-              placeholder={'密码: ant.design'}
-              rules={[
-                {
-                  required: true,
-                  message: '请输入密码！',
-                },
-              ]}
-            />
-          </>
-        )}
-        {loginType === 'phone' && (
+        {
           <>
             <ProFormText
               fieldProps={{
@@ -88,7 +86,7 @@ export const Login = () => {
                   />
                 ),
               }}
-              name="mobile"
+              name="tel"
               placeholder={'手机号'}
               rules={[
                 {
@@ -123,19 +121,33 @@ export const Login = () => {
                 }
                 return '获取验证码'
               }}
-              name="captcha"
+              phoneName="tel"
+              name="code"
               rules={[
                 {
                   required: true,
                   message: '请输入验证码！',
                 },
               ]}
-              onGetCaptcha={async () => {
-                await message.success('获取验证码成功!验证码为:1234')
+              onGetCaptcha={async (phone: string) => {
+                try {
+                  const res = await sendMsg({
+                    variables: {
+                      tel: phone,
+                    },
+                  })
+                  if (res.data?.sendCodeMsg.code === 200) {
+                    await message.success(res.data?.sendCodeMsg.message)
+                  } else {
+                    await message.error(res.data?.sendCodeMsg.message)
+                  }
+                } catch (error) {
+                  await message.error(error)
+                }
               }}
             />
           </>
-        )}
+        }
         <div
           style={{
             marginBlockEnd: 24,
