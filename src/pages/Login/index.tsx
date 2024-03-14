@@ -1,3 +1,5 @@
+import { LOGIN, SEND_CODE_MSG } from '@/graphql/auth'
+import { AUTH_TOKEN } from '@/utils/constants'
 import { LockOutlined, MobileOutlined, WechatOutlined } from '@ant-design/icons'
 import {
   LoginFormPage,
@@ -5,16 +7,17 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components'
+import { useMutation } from '@apollo/client'
 import { Divider, Space, Tabs, message, theme } from 'antd'
 import { useState } from 'react'
 import styles from './index.module.less'
-import { useMutation } from '@apollo/client'
-import { LOGIN, SEND_CODE_MSG } from '@/graphql/auth'
+import { useNavigate } from 'react-router-dom'
 
 type LoginType = 'phone' | 'account'
 interface LoginValues {
   tel: string
   code: string
+  autoLogin: boolean
 }
 const Actions = () => {
   const { token } = theme.useToken()
@@ -45,16 +48,22 @@ export const Login = () => {
   const [login] = useMutation(LOGIN)
   const [loginType, setLoginType] = useState<LoginType>('phone')
   const { token } = theme.useToken()
+  const nav = useNavigate()
 
   const loginHandler = async (values: LoginValues) => {
     const res = await login({
       variables: values,
     })
-    const { code, message } = res.data.login
+    const { code, message, data } = res.data.login
+    console.log(code)
     if (code === 200) {
+      if (values.autoLogin) {
+        localStorage.setItem(AUTH_TOKEN, data)
+      }
       message.success(message)
+      nav('/')
     } else {
-      message.error(message)
+      await message.error(message)
     }
   }
   return (

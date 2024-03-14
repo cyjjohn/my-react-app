@@ -5,7 +5,7 @@ import Login from '@/pages/Login/index.tsx'
 import My from '@/pages/My/index.tsx'
 
 export const ROUTE_KEY = {
-  HOME: 'home',
+  HOME: '',
   MY: 'my',
   ORG: 'org',
   COURSE: 'course',
