@@ -55,15 +55,14 @@ export const Login = () => {
       variables: values,
     })
     const { code, message, data } = res.data.login
-    console.log(code)
     if (code === 200) {
       if (values.autoLogin) {
         localStorage.setItem(AUTH_TOKEN, data)
       }
-      message.success(message)
+      // message.success(message)
       nav('/')
     } else {
-      await message.error(message)
+      // await message.error(message)
     }
   }
   return (
