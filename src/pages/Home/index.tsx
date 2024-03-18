@@ -1,11 +1,13 @@
+import { useGoTo } from '@/hooks/useGoTo'
+import { useUserContext } from '@/hooks/useHooks'
+import { ROUTE_KEY } from '@/router'
+import { Button } from 'antd'
 import { FC, memo } from 'react'
 import style from './index.module.less'
-import { Button } from 'antd'
-import { useGoTo } from '@/hooks/useGoTo'
-import { ROUTE_KEY } from '@/router'
 
 const Home: FC = memo(() => {
   const { go } = useGoTo()
+  const { store, setStore } = useUserContext()
 
   return (
     <div className={style.container}>

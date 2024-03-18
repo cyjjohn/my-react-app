@@ -8,7 +8,7 @@ const httpLink = createHttpLink({
   uri: 'api/graphql',
 })
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem(AUTH_TOKEN)
+  const token = sessionStorage.getItem(AUTH_TOKEN) ?? localStorage.getItem(AUTH_TOKEN)
 
   // 返回头部，如果没有token，可能就不添加Authorization头部
   return {

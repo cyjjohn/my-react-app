@@ -1,6 +1,7 @@
 import { FC, memo } from 'react'
 import { Outlet } from 'react-router-dom'
 import s from './MainLayout.module.scss'
+import UserInfo from '@/components/UserInfo'
 
 const MainLayout: FC = memo(() => {
   return (
@@ -14,7 +15,9 @@ const MainLayout: FC = memo(() => {
         </div>
       </header> */}
       <section className={s.content}>
-        <Outlet />
+        <UserInfo>
+          <Outlet />
+        </UserInfo>
       </section>
       {/* <footer className={s.footer}>&copy; 2024 - {new Date().getFullYear()}. Create by cyj</footer> */}
     </div>

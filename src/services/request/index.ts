@@ -1,6 +1,7 @@
 import { getToken } from '@/utils/token'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { BASE_URL, TIMEOUT } from './config'
+import { message } from 'antd'
 
 export interface ResType {
   errno: number
@@ -44,7 +45,7 @@ class Request {
         const { errno, data, msg } = res.data as ResType
         if (errno !== 0) {
           //根据需要改为其他可视化报错
-          console.error(msg ?? 'An unknown error occurred')
+          message.error(msg ?? 'An unknown error occurred')
           return Promise.reject(new Error(msg ?? 'An unknown error occurred'))
         }
         return data!

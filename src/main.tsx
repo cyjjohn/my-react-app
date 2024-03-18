@@ -1,21 +1,21 @@
 import { client } from '@/utils/apollo.ts'
 import { ApolloProvider } from '@apollo/client'
+import { App as AntdApp } from 'antd'
 import 'normalize.css'
-import { Suspense } from 'react'
+import { FC, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 import router from './router'
-import UserInfo from './components/UserInfo'
 
-export function App() {
+export const App: FC = () => {
   return (
     <ApolloProvider client={client}>
-      <UserInfo>
-        <Suspense fallback="Loading...">
+      <AntdApp>
+        <Suspense fallback="">
           {/* router自动创建结构 */}
           <RouterProvider router={router} />
         </Suspense>
-      </UserInfo>
+      </AntdApp>
     </ApolloProvider>
   )
 }

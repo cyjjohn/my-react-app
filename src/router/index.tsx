@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
-import { Home, NotFound } from './Lazy.tsx'
 import Login from '@/pages/Login/index.tsx'
 import My from '@/pages/My/index.tsx'
+import { NotFound } from './Lazy'
+import Home from '@/pages/Home'
 
 export const ROUTE_KEY = {
   HOME: '',

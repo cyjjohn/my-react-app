@@ -8,10 +8,11 @@ import {
   ProFormText,
 } from '@ant-design/pro-components'
 import { useMutation } from '@apollo/client'
-import { Divider, Space, Tabs, message, theme } from 'antd'
+import { App, Divider, Space, Tabs, message, theme } from 'antd'
 import { useState } from 'react'
 import styles from './index.module.less'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useTitle } from '@/hooks/useTitle'
 
 type LoginType = 'phone' | 'account'
 interface LoginValues {
@@ -48,21 +49,28 @@ export const Login = () => {
   const [login] = useMutation(LOGIN)
   const [loginType, setLoginType] = useState<LoginType>('phone')
   const { token } = theme.useToken()
+  const [params] = useSearchParams()
   const nav = useNavigate()
+  const { message } = App.useApp()
+  useTitle('登录')
 
   const loginHandler = async (values: LoginValues) => {
     const res = await login({
       variables: values,
     })
-    const { code, message, data } = res.data.login
+    const { code, message: msg, data } = res.data.login
     if (code === 200) {
       if (values.autoLogin) {
+        sessionStorage.removeItem(AUTH_TOKEN)
         localStorage.setItem(AUTH_TOKEN, data)
+      } else {
+        localStorage.removeItem(AUTH_TOKEN)
+        sessionStorage.setItem(AUTH_TOKEN, data)
       }
-      // message.success(message)
-      nav('/')
+      message.success(msg)
+      nav(params.get('orgUrl') ?? '/')
     } else {
-      // await message.error(message)
+      message.error(msg)
     }
   }
   return (
@@ -77,9 +85,8 @@ export const Login = () => {
           centered
           activeKey={loginType}
           onChange={activeKey => setLoginType(activeKey as LoginType)}
-        >
-          <Tabs.TabPane key={'phone'} tab={'手机号登录'} />
-        </Tabs>
+          items={[{ key: 'phone', label: '手机号登录' }]}
+        />
         {
           <>
             <ProFormText
