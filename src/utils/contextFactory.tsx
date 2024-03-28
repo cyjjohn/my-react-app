@@ -1,4 +1,4 @@
-import { IPropChild } from '@/types/user.type'
+import { IPropChild } from '@/types/common.type'
 import { createContext, useContext, useMemo, useState } from 'react'
 
 // 自定义ctx的value内容
@@ -23,10 +23,13 @@ function getCtxProvider<T>(key: string, defaultStore: T, AppContext: React.Conte
         key,
         store,
         setStore: (payload = {}) =>
-          setStore(state => ({
-            ...state,
-            ...payload,
-          })),
+          setStore(state => {
+            debugger
+            return {
+              ...state,
+              ...payload,
+            }
+          }),
       }),
       [store],
     )
@@ -55,7 +58,7 @@ class Cxt<T = any> {
 }
 
 // 从cache中得到store、setStore
-export function useAppContext<T>(key: string) {
+export function useAppContext<T = any>(key: string) {
   const cxt = cxtCache[key] as Cxt<T>
   const app = useContext(cxt.AppContext)
   return {

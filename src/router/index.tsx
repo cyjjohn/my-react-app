@@ -4,6 +4,7 @@ import Login from '@/pages/Login/index.tsx'
 import My from '@/pages/My/index.tsx'
 import { NotFound } from './Lazy'
 import Home from '@/pages/Home'
+import UserInfo from '@/components/UserInfo'
 
 export const ROUTE_KEY = {
   HOME: '',
@@ -19,7 +20,11 @@ export const ROUTE_KEY = {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
+    element: (
+      <UserInfo>
+        <MainLayout />
+      </UserInfo>
+    ),
     children: [
       {
         path: ROUTE_KEY.HOME,
@@ -45,11 +50,15 @@ const router = createBrowserRouter([
         path: ROUTE_KEY.STUDENT,
         element: <Home />,
       },
-      {
-        path: ROUTE_KEY.LOGIN,
-        element: <Login />,
-      },
     ],
+  },
+  {
+    path: ROUTE_KEY.LOGIN,
+    element: (
+      <UserInfo>
+        <Login />
+      </UserInfo>
+    ),
   },
   {
     path: '*',

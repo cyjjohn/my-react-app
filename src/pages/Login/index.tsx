@@ -1,4 +1,5 @@
 import { LOGIN, SEND_CODE_MSG } from '@/graphql/auth'
+import { useTitle } from '@/hooks/useTitle'
 import { AUTH_TOKEN } from '@/utils/constants'
 import { LockOutlined, MobileOutlined, WechatOutlined } from '@ant-design/icons'
 import {
@@ -7,12 +8,12 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components'
-import { useMutation } from '@apollo/client'
-import { App, Divider, Space, Tabs, message, theme } from 'antd'
+import { App, Divider, Space, Tabs, theme } from 'antd'
 import { useState } from 'react'
-import styles from './index.module.less'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useTitle } from '@/hooks/useTitle'
+import styles from './index.module.less'
+import { useUserContext } from '@/hooks/useHooks'
+import { useMutation } from '@/utils/apollo'
 
 type LoginType = 'phone' | 'account'
 interface LoginValues {
@@ -50,6 +51,7 @@ export const Login = () => {
   const [loginType, setLoginType] = useState<LoginType>('phone')
   const { token } = theme.useToken()
   const [params] = useSearchParams()
+  const { store } = useUserContext()
   const nav = useNavigate()
   const { message } = App.useApp()
   useTitle('登录')
@@ -60,6 +62,7 @@ export const Login = () => {
     })
     const { code, message: msg, data } = res.data.login
     if (code === 200) {
+      store.refetch()
       if (values.autoLogin) {
         sessionStorage.removeItem(AUTH_TOKEN)
         localStorage.setItem(AUTH_TOKEN, data)
@@ -73,6 +76,7 @@ export const Login = () => {
       message.error(msg)
     }
   }
+
   return (
     <div className={styles.container}>
       <LoginFormPage
@@ -103,6 +107,7 @@ export const Login = () => {
               }}
               name="tel"
               placeholder={'手机号'}
+              initialValue="15316159172"
               rules={[
                 {
                   required: true,
@@ -145,19 +150,15 @@ export const Login = () => {
                 },
               ]}
               onGetCaptcha={async (phone: string) => {
-                try {
-                  const res = await sendMsg({
-                    variables: {
-                      tel: phone,
-                    },
-                  })
-                  if (res.data?.sendCodeMsg.code === 200) {
-                    await message.success(res.data?.sendCodeMsg.message)
-                  } else {
-                    await message.error(res.data?.sendCodeMsg.message)
-                  }
-                } catch (error) {
-                  await message.error(error)
+                const res = await sendMsg({
+                  variables: {
+                    tel: phone,
+                  },
+                })
+                if (res.data?.sendCodeMsg.code === 200) {
+                  message.success(res.data?.sendCodeMsg.message)
+                } else {
+                  res.data && message.error(res.data.sendCodeMsg.message)
                 }
               }}
             />
