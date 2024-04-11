@@ -18,7 +18,10 @@ module.exports = {
     '@typescript-eslint/no-unsafe-call':'warn',
     '@typescript-eslint/no-unsafe-argument':'warn',
     '@typescript-eslint/no-empty-function':["error", { "allow": ["arrowFunctions"] }],
-    '@typescript-eslint/no-explicit-any':['off']
+    '@typescript-eslint/no-explicit-any':'off',
+    '@typescript-eslint/consistent-type-definitions':'off',
+    '@typescript-eslint/no-misused-promises':'off',
+    '@typescript-eslint/no-floating-promises':'off'
   },
   parserOptions: {
     ecmaVersion: 'latest',

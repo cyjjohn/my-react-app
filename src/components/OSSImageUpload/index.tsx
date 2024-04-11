@@ -2,22 +2,29 @@ import { GET_OSS_INFO } from '@/graphql/oss'
 import { IOSSDataType } from '@/types/oss.type'
 import { useQuery } from '@/utils/apollo'
 import { PlusOutlined } from '@ant-design/icons'
-import { Space, Upload, UploadFile, UploadProps } from 'antd'
+import { Upload, UploadFile, UploadProps } from 'antd'
 import ImgCrop from 'antd-img-crop'
 
 interface AliyunOSSUploadProps {
   label?: string
   value?: UploadFile[]
   onChange?: (file: UploadFile[]) => void
+  maxCount?: number
+  imgCropAspect?: number
 }
 
 /**
  * 图片上传
  */
-const OSSImageUpload = ({ label, value, onChange }: AliyunOSSUploadProps) => {
+const OSSImageUpload = ({
+  label,
+  value,
+  onChange,
+  maxCount,
+  imgCropAspect,
+}: AliyunOSSUploadProps) => {
   const { data, refetch } = useQuery<{ getOSSInfo: IOSSDataType }>(GET_OSS_INFO)
   const OSSData = data?.getOSSInfo
-  console.log(value)
   const getKey = (file: UploadFile) => {
     const suffix = file.name.slice(file.name.lastIndexOf('.'))
     const key = `${OSSData?.dir}${file.uid}${suffix}`
@@ -53,10 +60,10 @@ const OSSImageUpload = ({ label, value, onChange }: AliyunOSSUploadProps) => {
   }
 
   return (
-    <ImgCrop rotationSlider showReset>
+    <ImgCrop rotationSlider showReset aspect={imgCropAspect}>
       <Upload
         name="file"
-        maxCount={1}
+        maxCount={maxCount ?? 1}
         fileList={value}
         listType="picture-card"
         action={OSSData?.host}
@@ -64,12 +71,17 @@ const OSSImageUpload = ({ label, value, onChange }: AliyunOSSUploadProps) => {
         onChange={handleChange}
         beforeUpload={beforeUpload}
       >
-        <Space direction="vertical">
-          <PlusOutlined />
-          {label}
-        </Space>
+        <PlusOutlined />
+        {label}
       </Upload>
     </ImgCrop>
   )
+}
+OSSImageUpload.defaultProps = {
+  label: '上传图片',
+  // value: null,
+  // onChange: () => {},
+  maxCount: 1,
+  imgCropAspect: 1 / 1,
 }
 export default OSSImageUpload

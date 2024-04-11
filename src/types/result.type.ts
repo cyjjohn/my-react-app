@@ -1,4 +1,4 @@
-import { Page } from './page.type'
+import { IPage } from './page.type'
 
 export interface IResult<T> {
   code: number
@@ -10,5 +10,5 @@ export interface IResults<T> {
   code: number
   message: string
   data?: T[]
-  page?: Page
+  page?: IPage
 }

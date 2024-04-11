@@ -24,7 +24,6 @@ function getCtxProvider<T>(key: string, defaultStore: T, AppContext: React.Conte
         store,
         setStore: (payload = {}) =>
           setStore(state => {
-            debugger
             return {
               ...state,
               ...payload,

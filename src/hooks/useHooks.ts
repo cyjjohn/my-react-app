@@ -17,7 +17,6 @@ export const useGetUser = () => {
   const { pathname } = useLocation()
   const { loading, refetch } = useQuery<{ getUserInfo: IUser }>(GET_USER, {
     onCompleted: data => {
-      debugger
       if (data.getUserInfo) {
         const { id, name, tel, desc, avatar } = data.getUserInfo
         setStore({

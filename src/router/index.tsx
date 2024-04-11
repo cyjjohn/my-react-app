@@ -5,9 +5,10 @@ import My from '@/pages/My/index.tsx'
 import { NotFound } from './Lazy'
 import Home from '@/pages/Home'
 import UserInfo from '@/components/UserInfo'
+import Org from '@/pages/Org'
 
 export const ROUTE_KEY = {
-  HOME: '',
+  HOME: 'home',
   MY: 'my',
   ORG: 'org',
   COURSE: 'course',
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTE_KEY.ORG,
-        element: <Home />,
+        element: <Org />,
       },
       {
         path: ROUTE_KEY.COURSE,

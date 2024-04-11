@@ -1,9 +1,12 @@
+import { useGoTo } from '@/hooks/useGoTo'
 import { useUserContext } from '@/hooks/useHooks'
+import { ROUTE_KEY } from '@/router'
 import { routes } from '@/router/menus'
 import { AUTH_TOKEN } from '@/utils/constants'
-import { MenuDataItem, PageContainer, ProLayout } from '@ant-design/pro-components'
-import { Dropdown } from 'antd'
-import { FC, memo, useEffect } from 'react'
+import { LogoutOutlined } from '@ant-design/icons'
+import { MenuDataItem, ProLayout } from '@ant-design/pro-components'
+import { Dropdown, Space } from 'antd'
+import { FC, memo } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 
 const menuItemRender = (item: MenuDataItem, dom: React.ReactNode) => (
@@ -12,11 +15,8 @@ const menuItemRender = (item: MenuDataItem, dom: React.ReactNode) => (
 
 const MainLayout: FC = memo(() => {
   const { store } = useUserContext()
+  const { go } = useGoTo()
   const nav = useNavigate()
-
-  useEffect(() => {
-    console.log(store)
-  }, [store])
 
   const logout = () => {
     sessionStorage.removeItem(AUTH_TOKEN)
@@ -33,6 +33,7 @@ const MainLayout: FC = memo(() => {
         src: store.avatar || null,
         size: 'small',
         title: store.name || store.tel,
+        onClick: () => go(ROUTE_KEY.MY),
         render: (props, dom) => {
           return (
             <Dropdown
@@ -51,6 +52,12 @@ const MainLayout: FC = memo(() => {
           )
         },
       }}
+      links={[
+        <Space>
+          <LogoutOutlined onClick={logout} />
+          退出
+        </Space>,
+      ]}
       siderWidth={150}
       route={{
         path: '/',
@@ -59,9 +66,7 @@ const MainLayout: FC = memo(() => {
       menuItemRender={menuItemRender}
       onMenuHeaderClick={() => nav('/')}
     >
-      <PageContainer>
-        <Outlet />
-      </PageContainer>
+      <Outlet />
     </ProLayout>
   )
 })
