@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react'
 import { PageContainer, ProList } from '@ant-design/pro-components'
+import { useState } from 'react'
 
-import style from './index.module.less'
-import { Button, Popconfirm, Tag } from 'antd'
 import { useDelOrg, useOrganizations } from '@/services/org'
 import { DEFAULT_PAGE_SIZE } from '@/utils/constants'
+import { Button, Popconfirm, Tag } from 'antd'
 import EditOrg from './components/EditOrg'
+import style from './index.module.less'
 
 /**
  * 门店列表页面
  */
-const Org = ({}) => {
+const Org = () => {
   const [curId, setCurId] = useState('')
   const [showEdit, setShowEdit] = useState(false)
   const { data, page, refetch, loading } = useOrganizations()
@@ -30,11 +30,15 @@ const Org = ({}) => {
     ...item,
     key: item.id,
     title: item.name,
-    subTitle: item.tags?.split(',').map(tag => (
-      <Tag key={tag} color="#5BD8A6">
-        {tag}
-      </Tag>
-    )),
+    subTitle: (
+      <>
+        {item.tags?.split(',').map(tag => (
+          <Tag key={tag} color="#5BD8A6">
+            {tag}
+          </Tag>
+        ))}
+      </>
+    ),
     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/UCSiy1j6jx/xingzhuang.svg',
     actions: [
       <Button type="link" onClick={() => editInfoHandler(item.id)}>

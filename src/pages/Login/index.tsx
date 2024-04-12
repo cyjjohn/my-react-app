@@ -12,7 +12,7 @@ import { App, Divider, Space, Tabs, theme } from 'antd'
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './index.module.less'
-import { useUserContext } from '@/hooks/useHooks'
+import { useUserContext } from '@/hooks/useStore'
 import { useMutation } from '@/utils/apollo'
 
 type LoginType = 'phone' | 'account'

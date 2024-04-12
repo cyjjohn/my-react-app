@@ -1,4 +1,4 @@
-import { connnect, useGetUser } from '@/hooks/useHooks'
+import { connnect, useGetUser } from '@/hooks/useStore'
 import { Spin } from 'antd'
 
 /**

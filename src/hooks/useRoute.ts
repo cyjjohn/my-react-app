@@ -1,4 +1,6 @@
-import { useNavigate } from 'react-router-dom'
+import { ROUTE_KEY } from '@/router'
+import { routes } from '@/router/menus'
+import { matchPath, useLocation, useNavigate } from 'react-router-dom'
 
 export const useGoTo = () => {
   const nav = useNavigate()
@@ -18,4 +20,18 @@ export const useGoTo = () => {
     }
   }
   return { back, go }
+}
+
+export const useMatchedRoute = () => {
+  const { pathname } = useLocation()
+  const route = routes.find(item => matchPath(`/${item.path}`, pathname))
+  return route
+}
+
+export const useIsOrgRoute = () => {
+  const curRoute = useMatchedRoute()
+  if (curRoute?.path === ROUTE_KEY.ORG) {
+    return true
+  }
+  return false
 }

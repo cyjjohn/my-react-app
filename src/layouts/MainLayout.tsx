@@ -1,11 +1,12 @@
-import { useGoTo } from '@/hooks/useGoTo'
-import { useUserContext } from '@/hooks/useHooks'
+import OrgSelect from '@/components/OrgSelect'
+import { useGoTo, useIsOrgRoute } from '@/hooks/useRoute'
+import { useUserContext } from '@/hooks/useStore'
 import { ROUTE_KEY } from '@/router'
 import { routes } from '@/router/menus'
 import { AUTH_TOKEN } from '@/utils/constants'
-import { LogoutOutlined } from '@ant-design/icons'
+import { LogoutOutlined, ShopOutlined } from '@ant-design/icons'
 import { MenuDataItem, ProLayout } from '@ant-design/pro-components'
-import { Dropdown, Space } from 'antd'
+import { Dropdown, Space, Tooltip } from 'antd'
 import { FC, memo } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 
@@ -17,6 +18,7 @@ const MainLayout: FC = memo(() => {
   const { store } = useUserContext()
   const { go } = useGoTo()
   const nav = useNavigate()
+  const isOrg = useIsOrgRoute()
 
   const logout = () => {
     sessionStorage.removeItem(AUTH_TOKEN)
@@ -65,6 +67,16 @@ const MainLayout: FC = memo(() => {
       }}
       menuItemRender={menuItemRender}
       onMenuHeaderClick={() => nav('/')}
+      actionsRender={() => [
+        !isOrg && <OrgSelect />,
+        <Tooltip title="门店管理">
+          <ShopOutlined
+            onClick={() => {
+              go(ROUTE_KEY.ORG)
+            }}
+          />
+        </Tooltip>,
+      ]}
     >
       <Outlet />
     </ProLayout>

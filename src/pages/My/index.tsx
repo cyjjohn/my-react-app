@@ -1,6 +1,6 @@
 import OSSImageUpload from '@/components/OSSImageUpload'
 import { UPDATE_USER } from '@/graphql/user'
-import { useUserContext } from '@/hooks/useHooks'
+import { useUserContext } from '@/hooks/useStore'
 import {
   PageContainer,
   ProForm,

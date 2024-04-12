@@ -1,5 +1,5 @@
-import { useGoTo } from '@/hooks/useGoTo'
-import { useUserContext } from '@/hooks/useHooks'
+import { useGoTo } from '@/hooks/useRoute'
+import { useUserContext } from '@/hooks/useStore'
 import { ROUTE_KEY } from '@/router'
 import { Button } from 'antd'
 import { FC, memo } from 'react'
