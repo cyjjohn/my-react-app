@@ -34,7 +34,9 @@ const authLink = setContext((_, { headers }) => {
 
 export const client = new ApolloClient({
   link: ApolloLink.from([authLink, httpLink]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
 })
 
 function useQuery<TData = any, TVariables extends OperationVariables = OperationVariables>(

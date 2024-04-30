@@ -13,7 +13,7 @@ const Home: FC = memo(() => {
     <div className={style.container}>
       <Button onClick={() => go(ROUTE_KEY.MY)}>
         去个人中心
-        {/* {store.currentOrg} */}
+        {store.currentOrg}
       </Button>
     </div>
   )

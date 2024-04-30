@@ -4,6 +4,8 @@ import { Select, Space } from 'antd'
 import { memo, useEffect } from 'react'
 import debounce from 'lodash/debounce'
 import { useUserContext } from '@/hooks/useStore'
+import { useGoTo } from '@/hooks/useRoute'
+import { ROUTE_KEY } from '@/router'
 
 const curOrg = () => {
   let res
@@ -18,12 +20,15 @@ const curOrg = () => {
 const OrgSelect = memo(() => {
   const { data, loading, refetch } = useOrganizations(1, 10, true)
   const { setStore } = useUserContext()
+  const { go } = useGoTo()
 
   useEffect(() => {
     if (curOrg().value) {
       setStore({
         currentOrg: curOrg().value,
       })
+    } else {
+      go(ROUTE_KEY.NO_ORG)
     }
   }, [])
 

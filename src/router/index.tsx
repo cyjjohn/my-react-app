@@ -6,6 +6,8 @@ import { NotFound } from './Lazy'
 import Home from '@/pages/Home'
 import UserInfo from '@/components/UserInfo'
 import Org from '@/pages/Org'
+import NoOrg from '@/pages/NoOrg'
+import Course from '@/pages/Course'
 
 export const ROUTE_KEY = {
   HOME: 'home',
@@ -41,11 +43,11 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTE_KEY.COURSE,
-        element: <Home />,
+        element: <Course />,
       },
       {
         path: ROUTE_KEY.NO_ORG,
-        element: <Home />,
+        element: <NoOrg />,
       },
       {
         path: ROUTE_KEY.STUDENT,
