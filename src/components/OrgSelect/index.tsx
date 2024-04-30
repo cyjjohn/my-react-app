@@ -8,7 +8,7 @@ import { useGoTo } from '@/hooks/useRoute'
 import { ROUTE_KEY } from '@/router'
 
 const curOrg = () => {
-  let res = {}
+  let res
   try {
     res = JSON.parse(localStorage.getItem(LOCAL_CURRENT_ORG) ?? '')
   } catch {
