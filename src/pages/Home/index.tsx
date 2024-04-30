@@ -7,7 +7,7 @@ import style from './index.module.less'
 
 const Home: FC = memo(() => {
   const { go } = useGoTo()
-  const { store, setStore } = useUserContext()
+  const { store } = useUserContext()
 
   return (
     <div className={style.container}>

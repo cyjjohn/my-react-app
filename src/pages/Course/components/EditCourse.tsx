@@ -1,5 +1,5 @@
 import { useCourse, useEditCourseInfo } from '@/services/course'
-import { ICourse, TBaseCourse } from '@/types/course.type'
+import { TBaseCourse } from '@/types/course.type'
 import {
   ProForm,
   ProFormDigit,
@@ -29,7 +29,7 @@ const EditCourse = memo(({ id, open, onClose }: IProps) => {
     console.log('edit')
     ;(async () => {
       if (id) {
-        const res = (await getCourse(id)) as ICourse
+        const res = await getCourse(id)
         formRef.current?.setFieldsValue(res)
       }
     })()
