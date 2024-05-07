@@ -6,16 +6,7 @@ import debounce from 'lodash/debounce'
 import { useUserContext } from '@/hooks/useStore'
 import { useGoTo } from '@/hooks/useRoute'
 import { ROUTE_KEY } from '@/router'
-
-const curOrg = () => {
-  let res
-  try {
-    res = JSON.parse(localStorage.getItem(LOCAL_CURRENT_ORG) ?? '')
-  } catch {
-    res = { label: '', value: '' }
-  }
-  return res
-}
+import { curOrg } from '@/utils'
 
 const OrgSelect = memo(() => {
   const { data, loading, refetch } = useOrganizations(1, 10, true)

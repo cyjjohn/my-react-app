@@ -15,6 +15,7 @@ import {
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { AUTH_TOKEN } from './constants'
+import { curOrg } from '.'
 
 //拦截器
 const httpLink = createHttpLink({
@@ -28,6 +29,7 @@ const authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       Authorization: token ? `Bearer ${token}` : '',
+      orgId: curOrg()?.value,
     },
   }
 })

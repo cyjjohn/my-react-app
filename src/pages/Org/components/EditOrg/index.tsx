@@ -15,9 +15,10 @@ import { memo, useMemo, useRef } from 'react'
 interface IProp {
   id: string
   onClose: () => void
+  open: boolean
 }
 
-const EditOrg = memo(({ id, onClose }: IProp) => {
+const EditOrg = memo(({ id, onClose, open }: IProp) => {
   const formRef = useRef<ProFormInstance>()
   const { data, loading } = useOrganization(id)
   const [commit, editLoading] = useEditOrg()
@@ -60,7 +61,7 @@ const EditOrg = memo(({ id, onClose }: IProp) => {
       title="编辑门店信息"
       width="70vw"
       onClose={onClose}
-      open={true}
+      open={open}
       styles={{
         footer: { textAlign: 'right' },
       }}

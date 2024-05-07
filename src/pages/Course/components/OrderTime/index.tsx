@@ -76,6 +76,9 @@ const OrderTime = memo(({ id, open, onClose }: IProps) => {
               saveHandler([...orderTime, _.omit(row, 'index')])
             }
           },
+          onDelete: async key => {
+            deleteHandler(key as number)
+          },
         }}
       />
       <Row gutter={20} className={styles.buttons}>

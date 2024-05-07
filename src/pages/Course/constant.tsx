@@ -5,7 +5,8 @@ import { Button } from 'antd'
 export const getColumns: (
   editHandler: (id: string) => void,
   orderTimeHandler: (id: string) => void,
-) => ProColumns<ICourse>[] = (editHandler, orderTimeHandler) => [
+  cardHandler: (id: string) => void,
+) => ProColumns<ICourse>[] = (editHandler, orderTimeHandler, cardHandler) => [
   {
     title: '排序',
     dataIndex: 'index',
@@ -36,6 +37,9 @@ export const getColumns: (
       </Button>,
       <Button key="orderTime" type="link" onClick={() => orderTimeHandler(record.id)}>
         可约时间
+      </Button>,
+      <Button key="card" type="link" onClick={() => cardHandler(record.id)}>
+        关联消费卡
       </Button>,
     ],
   },
