@@ -52,7 +52,7 @@ const EditOrg = memo(({ id, onClose, open }: IProp) => {
             identityCardFrontImg: [{ url: data.identityCardFrontImg }],
             businessLicense: [{ url: data.businessLicense }],
           }
-        : {},
+        : undefined,
     [data],
   )
 
