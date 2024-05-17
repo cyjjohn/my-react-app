@@ -5,7 +5,6 @@ import { useDelOrg, useOrganizations } from '@/services/org'
 import { DEFAULT_PAGE_SIZE } from '@/utils/constants'
 import { Button, Popconfirm, Tag } from 'antd'
 import EditOrg from './components/EditOrg'
-import { CSSTransition } from 'react-transition-group'
 import style from './index.module.less'
 
 /**
@@ -109,9 +108,7 @@ const Org = () => {
           grid={{ gutter: 16, column: 2 }}
           dataSource={datasource}
         />
-        <CSSTransition in={showEdit} timeout={300} unmountOnExit>
-          <EditOrg id={curId} open={showEdit} onClose={onCloseHandler} />
-        </CSSTransition>
+        {showEdit && <EditOrg id={curId} open={showEdit} onClose={onCloseHandler} />}
       </PageContainer>
     </div>
   )

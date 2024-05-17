@@ -10,15 +10,15 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { Button, Divider, Drawer } from 'antd'
-import { memo, useMemo, useRef } from 'react'
+import { memo, useMemo, useRef, useState } from 'react'
 
 interface IProp {
   id: string
   onClose: () => void
-  open: boolean
 }
 
-const EditOrg = memo(({ id, onClose, open }: IProp) => {
+const EditOrg = memo(({ id, onClose }: IProp) => {
+  const [open, setOpen] = useState(true)
   const formRef = useRef<ProFormInstance>()
   const { data, loading } = useOrganization(id)
   const [commit, editLoading] = useEditOrg()
@@ -60,7 +60,8 @@ const EditOrg = memo(({ id, onClose, open }: IProp) => {
     <Drawer
       title="编辑门店信息"
       width="70vw"
-      onClose={onClose}
+      onClose={() => setOpen(false)}
+      afterOpenChange={o => !o && onClose()}
       open={open}
       styles={{
         footer: { textAlign: 'right' },

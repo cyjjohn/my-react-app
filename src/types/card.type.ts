@@ -1,3 +1,5 @@
+import { ICourse } from './course.type'
+
 export interface ICard {
   id?: string
   name: string
@@ -6,6 +8,7 @@ export interface ICard {
   validateDay: number
   courseId?: string
   orgId?: string
+  course?: ICourse
 }
 
 export type TBaseCard = Partial<ICard>

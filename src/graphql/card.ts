@@ -11,7 +11,10 @@ export const GET_CARDS = gql`
         type
         time
         validateDay
-        updatedAt
+        course {
+          id
+          name
+        }
       }
     }
   }

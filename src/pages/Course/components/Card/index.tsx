@@ -2,18 +2,18 @@ import { ICard, TBaseCard } from '@/types/card.type'
 import { EditableProTable } from '@ant-design/pro-components'
 import { Drawer } from 'antd'
 import _ from 'lodash'
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { getColumns } from './constant'
 import { useCards, useDelCard, useEditCard } from '@/services/card'
 
 interface IProps {
   id: string
-  open: boolean
   onClose: () => void
 }
 
-const Card = memo(({ id, open, onClose }: IProps) => {
+const Card = memo(({ id, onClose }: IProps) => {
   const { data, loading, refetch } = useCards(id)
+  const [open, setOpen] = useState(true)
   const [edit] = useEditCard()
   const [del] = useDelCard()
 
@@ -26,7 +26,13 @@ const Card = memo(({ id, open, onClose }: IProps) => {
   }
 
   return (
-    <Drawer title="管理消费卡" open={open} onClose={() => onClose()} width="70vw">
+    <Drawer
+      title="管理消费卡"
+      open={open}
+      afterOpenChange={o => !o && onClose()}
+      onClose={() => setOpen(false)}
+      width="70vw"
+    >
       <EditableProTable<ICard>
         rowKey="id"
         loading={loading}

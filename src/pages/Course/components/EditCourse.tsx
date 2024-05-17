@@ -8,25 +8,24 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { Button, Drawer, Space } from 'antd'
-import { memo, useEffect, useRef } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
 interface IProps {
   id?: string
-  open: boolean
   onClose: (isReload?: boolean) => void
 }
 
 /**
  * 创建/编辑课程信息
  */
-const EditCourse = memo(({ id, open, onClose }: IProps) => {
+const EditCourse = memo(({ id, onClose }: IProps) => {
+  const [open, setOpen] = useState(true)
   const formRef = useRef<ProFormInstance>()
   const { getCourse, loading } = useCourse()
   const [edit, editLoading] = useEditCourseInfo()
 
   //获取一次课程信息
   useEffect(() => {
-    console.log('edit')
     ;(async () => {
       if (id) {
         const res = await getCourse(id)
@@ -49,13 +48,14 @@ const EditCourse = memo(({ id, open, onClose }: IProps) => {
       open={open}
       extra={
         <Space>
-          <Button onClick={() => onClose()}>取消</Button>
+          <Button onClick={() => setOpen(false)}>取消</Button>
           <Button type="primary" onClick={submit} loading={editLoading}>
             提交
           </Button>
         </Space>
       }
-      onClose={() => onClose()}
+      onClose={() => setOpen(false)}
+      afterOpenChange={o => !o && onClose()}
     >
       <ProForm
         layout="horizontal"

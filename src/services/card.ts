@@ -1,6 +1,6 @@
 import { COMMIT_CARD, DEL_CARD, GET_CARDS } from '@/graphql/card'
 import { TBaseCard, TCardsQuery } from '@/types/card.type'
-import { useMutation, useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { App, message } from 'antd'
 
 export const useCards = (courseId: string, name?: string) => {
@@ -17,7 +17,23 @@ export const useCards = (courseId: string, name?: string) => {
   }
 }
 
-export const useEditCard = () => {
+export const useLazyCards = () => {
+  const [get, { loading, data }] = useLazyQuery<TCardsQuery>(GET_CARDS)
+  const getCards = (courseId: string) => {
+    get({
+      variables: {
+        courseId,
+      },
+    })
+  }
+  return {
+    loading,
+    data: data?.getCards.data,
+    getCards,
+  }
+}
+
+export const useEditCard: () => [handleEdit: Function, loading: boolean] = () => {
   const { message } = App.useApp()
   const [edit, { loading }] = useMutation(COMMIT_CARD)
 

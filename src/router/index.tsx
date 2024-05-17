@@ -8,12 +8,14 @@ import UserInfo from '@/components/UserInfo'
 import Org from '@/pages/Org'
 import NoOrg from '@/pages/NoOrg'
 import Course from '@/pages/Course'
+import Product from '@/pages/Product'
 
 export const ROUTE_KEY = {
   HOME: 'home',
   MY: 'my',
   ORG: 'org',
   COURSE: 'course',
+  PRODUCT: 'product',
   STUDENT: 'student',
   NO_ORG: 'noOrg',
   PAGE_404: 'p404',
@@ -44,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: ROUTE_KEY.COURSE,
         element: <Course />,
+      },
+      {
+        path: ROUTE_KEY.PRODUCT,
+        element: <Product />,
       },
       {
         path: ROUTE_KEY.NO_ORG,

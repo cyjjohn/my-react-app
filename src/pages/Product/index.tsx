@@ -1,23 +1,23 @@
 import { useUserContext } from '@/hooks/useStore'
-import { useCourses } from '@/services/course'
-import { ICourse } from '@/types/course.type'
+import { useDelProduct, useProducts } from '@/services/product'
+import { IProduct } from '@/types/product.type'
 import { DEFAULT_PAGE_SIZE } from '@/utils/constants'
 import { PlusOutlined } from '@ant-design/icons'
 import { ActionType, ProTable } from '@ant-design/pro-components'
 import { Button } from 'antd'
 import { memo, useEffect, useRef, useState } from 'react'
-import Card from './components/Card'
-import EditCourse from './components/EditCourse'
-import OrderTime from './components/OrderTime'
+import EditProduct from './components/EditProduct'
 import { getColumns } from './constant'
+import styles from './index.module.less'
+import ConsumeCard from './components/ConsumeCard'
 
-const Course = memo(() => {
-  const { data, refetch } = useCourses()
-  const actionRef = useRef<ActionType>()
+const Product = memo(() => {
   const [curId, setCurId] = useState('')
   const [showEdit, setShowEdit] = useState(false)
-  const [showOrderTime, setShowOrderTime] = useState(false)
   const [showCard, setShowCard] = useState(false)
+  const actionRef = useRef<ActionType>()
+  const { data, refetch, loading } = useProducts()
+  const [del, delLoading] = useDelProduct()
   const { store } = useUserContext()
 
   useEffect(() => {
@@ -33,17 +33,24 @@ const Course = memo(() => {
     setShowEdit(true)
   }
 
-  const closeAndRefetchHandler = (isReload?: boolean) => {
+  const closeHandler = (isReload?: boolean) => {
+    setCurId('')
     setShowEdit(false)
-    //若有提交后台则刷新
     if (isReload) {
       actionRef.current?.reload()
     }
   }
 
-  const orderTimeHandler = (id: string) => {
+  const editHandler = (id: string) => {
     setCurId(id)
-    setShowOrderTime(true)
+    setShowEdit(true)
+  }
+
+  const delHandler = (id: string) => {
+    setCurId(id)
+    del(id, () => {
+      actionRef.current?.reload()
+    })
   }
 
   const cardHandler = (id: string) => {
@@ -52,11 +59,20 @@ const Course = memo(() => {
   }
 
   return (
-    <>
-      <ProTable<ICourse>
+    <div className={styles.container}>
+      <h2>当前门店下开设的课程</h2>
+      <ProTable<IProduct>
         rowKey="id"
+        form={{
+          ignoreRules: false,
+        }}
+        loading={loading}
         actionRef={actionRef}
-        columns={getColumns(addHandler, orderTimeHandler, cardHandler)}
+        columns={getColumns({
+          editHandler,
+          delHandler,
+          cardHandler,
+        })}
         dataSource={data}
         pagination={{
           pageSize: DEFAULT_PAGE_SIZE,
@@ -68,11 +84,10 @@ const Course = memo(() => {
           </Button>,
         ]}
       />
-      {showEdit && <EditCourse id={curId} onClose={closeAndRefetchHandler} />}
-      {showOrderTime && <OrderTime id={curId} onClose={() => setShowOrderTime(false)} />}
-      {showCard && <Card id={curId} onClose={() => setShowCard(false)} />}
-    </>
+      {showEdit && <EditProduct id={curId} onClose={closeHandler} />}
+      {showCard && <ConsumeCard id={curId} onClose={() => setShowCard(false)} />}
+    </div>
   )
 })
 
-export default Course
+export default Product

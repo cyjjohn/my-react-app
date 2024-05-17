@@ -10,11 +10,11 @@ import styles from './index.module.less'
 
 interface IProps {
   id: string
-  open: boolean
   onClose: () => void
 }
 
-const OrderTime = memo(({ id, open, onClose }: IProps) => {
+const OrderTime = memo(({ id, onClose }: IProps) => {
+  const [open, setOpen] = useState(true)
   const [curDay, setCurDay] = useState<IDAY>(DAYS[0])
 
   const tabChangeHandler = (key: string) => {
@@ -33,8 +33,9 @@ const OrderTime = memo(({ id, open, onClose }: IProps) => {
       title="编辑预约时间"
       open={open}
       width={720}
-      onClose={onClose}
-      extra={<Button onClick={() => onClose()}>取消</Button>}
+      onClose={() => setOpen(false)}
+      afterOpenChange={o => !o && onClose()}
+      extra={<Button onClick={() => setOpen(false)}>取消</Button>}
     >
       <Tabs
         type="card"
