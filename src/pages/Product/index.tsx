@@ -59,13 +59,14 @@ const Product = memo(() => {
   }
 
   return (
-    <div className={styles.container}>
+    <>
       <h2>当前门店下开设的课程</h2>
       <ProTable<IProduct>
         rowKey="id"
         form={{
           ignoreRules: false,
         }}
+        scroll={{ x: 'max-content' }}
         loading={loading}
         actionRef={actionRef}
         columns={getColumns({
@@ -86,7 +87,7 @@ const Product = memo(() => {
       />
       {showEdit && <EditProduct id={curId} onClose={closeHandler} />}
       {showCard && <ConsumeCard id={curId} onClose={() => setShowCard(false)} />}
-    </div>
+    </>
   )
 })
 

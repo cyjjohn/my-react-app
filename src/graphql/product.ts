@@ -47,6 +47,10 @@ export const GET_PRODUCT = gql`
           type
           time
           validateDay
+          course {
+            name
+            id
+          }
         }
       }
     }
@@ -54,7 +58,7 @@ export const GET_PRODUCT = gql`
 `
 
 export const COMMIT_PRODUCT = gql`
-  mutation commitProductInfo($params: ProductInput!, $id: String) {
+  mutation commitProductInfo($params: PartialProductInput!, $id: String) {
     commitProductInfo(params: $params, id: $id) {
       code
       message

@@ -7,8 +7,8 @@ import { useMemo } from 'react'
 
 export const useProducts = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE) => {
   const { loading, data, refetch } = useQuery<TProductsQuery>(GET_PRODUCTS, {
+    skip: true,
     variables: {
-      skip: true,
       page: {
         pageNum,
         pageSize,
@@ -76,14 +76,14 @@ export const useProductInfo = (id: string) => {
 }
 
 export const useEditProduct = (): [
-  handleEdit: (params: TBaseProduct, id: string, callback: (isReload: boolean) => void) => void,
+  handleEdit: (id: string, params: TBaseProduct, callback: (isReload: boolean) => void) => void,
   loading: boolean,
 ] => {
   const { message } = App.useApp()
   const [commit, { loading }] = useMutation(COMMIT_PRODUCT)
   const handleEdit = async (
-    params: TBaseProduct,
     id: string,
+    params: TBaseProduct,
     callback: (isReload: boolean) => void,
   ) => {
     const res = await commit({

@@ -28,7 +28,6 @@ export const COMMIT_CARD = gql`
       data {
         name
         type
-        type
       }
     }
   }
