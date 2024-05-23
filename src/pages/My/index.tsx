@@ -4,12 +4,13 @@ import { useUserContext } from '@/hooks/useStore'
 import {
   PageContainer,
   ProForm,
+  ProFormField,
   ProFormInstance,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { useMutation } from '@apollo/client'
-import { App, Col, Form, Row } from 'antd'
+import { App, Col, Row } from 'antd'
 import { memo, useEffect, useRef } from 'react'
 
 const My = memo(() => {
@@ -20,15 +21,12 @@ const My = memo(() => {
 
   useEffect(() => {
     if (!store.tel) return
+    console.log(store.avatar)
     formRef.current?.setFieldsValue({
       tel: store.tel,
       name: store.name,
       desc: store.desc,
-      avatar: [
-        {
-          url: store.avatar,
-        },
-      ],
+      avatar: [{ url: store.avatar }],
     })
   }, [store])
 
@@ -71,16 +69,15 @@ const My = memo(() => {
             <ProFormTextArea name="desc" label="简介" placeholder="请输入简介信息" />
           </Col>
           <Col>
-            <Form.Item
+            <ProFormField
               name="avatar"
-              valuePropName="fileList"
-              // getValueFromEvent={e => {
-              //   if (Array.isArray(e)) return e
-              //   return e?.fileList
-              // }}
+              getValueFromEvent={e => {
+                if (Array.isArray(e)) return e
+                return e?.fileList
+              }}
             >
               <OSSImageUpload label="替换头像" />
-            </Form.Item>
+            </ProFormField>
           </Col>
         </Row>
       </ProForm>

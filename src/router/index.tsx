@@ -9,6 +9,7 @@ import Org from '@/pages/Org'
 import NoOrg from '@/pages/NoOrg'
 import Course from '@/pages/Course'
 import Product from '@/pages/Product'
+import Student from '@/pages/Student'
 
 export const ROUTE_KEY = {
   HOME: 'home',
@@ -57,7 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTE_KEY.STUDENT,
-        element: <Home />,
+        element: <Student />,
       },
     ],
   },
