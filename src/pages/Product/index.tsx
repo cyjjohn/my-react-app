@@ -1,15 +1,14 @@
 import { useUserContext } from '@/hooks/useStore'
-import { useDelProduct, useProducts } from '@/services/product'
+import { useDelProduct, useEditProduct, useProducts } from '@/services/product'
 import { IProduct } from '@/types/product.type'
 import { DEFAULT_PAGE_SIZE } from '@/utils/constants'
 import { PlusOutlined } from '@ant-design/icons'
 import { ActionType, ProTable } from '@ant-design/pro-components'
 import { Button } from 'antd'
 import { memo, useEffect, useRef, useState } from 'react'
+import ConsumeCard from './components/ConsumeCard'
 import EditProduct from './components/EditProduct'
 import { getColumns } from './constant'
-import styles from './index.module.less'
-import ConsumeCard from './components/ConsumeCard'
 
 const Product = memo(() => {
   const [curId, setCurId] = useState('')
@@ -18,6 +17,7 @@ const Product = memo(() => {
   const actionRef = useRef<ActionType>()
   const { data, refetch, loading } = useProducts()
   const [del, delLoading] = useDelProduct()
+  const [edit] = useEditProduct()
   const { store } = useUserContext()
 
   useEffect(() => {
@@ -39,6 +39,17 @@ const Product = memo(() => {
     if (isReload) {
       actionRef.current?.reload()
     }
+  }
+
+  const listHandler = (id: string, status: string) => {
+    setCurId(id)
+    edit(
+      id,
+      {
+        status,
+      },
+      () => actionRef.current?.reload(),
+    )
   }
 
   const editHandler = (id: string) => {
@@ -70,6 +81,7 @@ const Product = memo(() => {
         loading={loading}
         actionRef={actionRef}
         columns={getColumns({
+          listHandler,
           editHandler,
           delHandler,
           cardHandler,

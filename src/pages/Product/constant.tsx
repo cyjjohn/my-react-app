@@ -4,16 +4,23 @@ import { Button, Popconfirm, Image } from 'antd'
 import styles from './index.module.less'
 
 interface IProps {
+  listHandler: (id: string, status: string) => void
   editHandler: (id: string) => void
   cardHandler: (id: string) => void
   delHandler: (id: string) => void
 }
 
+const PRODUCT_STATUS = {
+  LIST: 'LIST', //上架
+  UN_LIST: 'UN_LIST', //下架
+}
+
 export const getColumns: ({
+  listHandler,
   editHandler,
   cardHandler,
   delHandler,
-}: IProps) => ProColumns<IProduct>[] = ({ editHandler, cardHandler, delHandler }) => [
+}: IProps) => ProColumns<IProduct>[] = ({ listHandler, editHandler, cardHandler, delHandler }) => [
   {
     title: '#',
     dataIndex: 'index',
@@ -87,6 +94,20 @@ export const getColumns: ({
     key: 'option',
     align: 'center',
     render: (_text, record) => [
+      record.status === PRODUCT_STATUS.UN_LIST ? (
+        <Button key="list" type="link" onClick={() => listHandler(record.id, PRODUCT_STATUS.LIST)}>
+          上架
+        </Button>
+      ) : (
+        <Button
+          key="unlist"
+          type="link"
+          style={{ color: 'green' }}
+          onClick={() => listHandler(record.id, PRODUCT_STATUS.UN_LIST)}
+        >
+          下架
+        </Button>
+      ),
       <Button key="card" type="link" onClick={() => cardHandler(record.id)}>
         绑消费卡
       </Button>,

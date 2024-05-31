@@ -11,6 +11,7 @@ import {
 } from '@ant-design/pro-components'
 import { Button, Drawer } from 'antd'
 import { memo, useEffect, useRef, useState } from 'react'
+import TypeSelect from '../TypeSelect'
 
 interface IProp {
   id: string
@@ -39,13 +40,14 @@ const EditProduct = memo(({ id, onClose }: IProp) => {
 
   const onFinishHandler = async () => {
     const values = (await formRef.current?.validateFields()) as TBaseProduct
+    console.log(values)
     if (values) {
       const formData = {
         ...values,
         coverUrl: values?.coverUrl.map(item => item.url).join(','),
         bannerUrl: values?.bannerUrl?.map(item => item.url).join(','),
       } as IProduct
-      commit(formData, id, onClose)
+      commit(id, formData, onClose)
     }
   }
 
@@ -93,10 +95,11 @@ const EditProduct = memo(({ id, onClose }: IProp) => {
             colProps={{ span: 10 }}
             rules={[{ required: true }]}
           />
+          <TypeSelect />
           <ProFormDigit
             label="库存总额"
             name="stock"
-            colProps={{ span: 6, offset: 2 }}
+            colProps={{ span: 6, offset: 1 }}
             rules={[{ required: true }]}
             fieldProps={{ precision: 0 }}
           />

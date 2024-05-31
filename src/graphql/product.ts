@@ -8,6 +8,7 @@ export const GET_PRODUCTS = gql`
       data {
         id
         name
+        status
         originalPrice
         stock
         curStock
@@ -65,6 +66,7 @@ export const COMMIT_PRODUCT = gql`
       data {
         id
         name
+        type
         originalPrice
         stock
         curStock
@@ -83,6 +85,18 @@ export const DEL_PRODUCT = gql`
     deleteProduct(id: $id) {
       code
       message
+    }
+  }
+`
+export const GET_PRODUCT_TYPES = gql`
+  query getProductTypes {
+    getProductTypes {
+      code
+      message
+      data {
+        title
+        key
+      }
     }
   }
 `
