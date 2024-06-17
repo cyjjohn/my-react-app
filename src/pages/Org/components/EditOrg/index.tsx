@@ -1,16 +1,16 @@
 import OSSImageUpload from '@/components/OSSImageUpload'
+import MapComponent from '@/pages/Course/components/Map'
 import { useEditOrg, useOrganization } from '@/services/org'
 import { IOrganization, TBaseOrganization } from '@/types/org.type'
 import {
   ProForm,
   ProFormField,
-  ProFormInstance,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Button, Divider, Drawer } from 'antd'
-import { memo, useMemo, useRef, useState } from 'react'
+import { Button, Divider, Drawer, Form } from 'antd'
+import { memo, useMemo, useState } from 'react'
 
 interface IProp {
   id: string
@@ -19,12 +19,12 @@ interface IProp {
 
 const EditOrg = memo(({ id, onClose }: IProp) => {
   const [open, setOpen] = useState(true)
-  const formRef = useRef<ProFormInstance>()
+  const [form] = Form.useForm()
   const { data, loading } = useOrganization(id)
   const [commit, editLoading] = useEditOrg()
 
   const onFinishHandler = async () => {
-    const values = (await formRef.current?.validateFields()) as TBaseOrganization
+    const values = (await form.validateFields()) as TBaseOrganization
     if (values) {
       const formData = {
         ...values,
@@ -33,6 +33,8 @@ const EditOrg = memo(({ id, onClose }: IProp) => {
         identityCardBackImg: values.identityCardBackImg[0].url,
         identityCardFrontImg: values.identityCardFrontImg[0].url,
         businessLicense: values.businessLicense[0].url,
+        longitude: values.longitude?.toString(),
+        latitude: values.latitude?.toString(),
         orgFrontImg: values?.orgFrontImg?.map(item => ({ url: item.url })),
         orgRoomImg: values?.orgRoomImg?.map(item => ({ url: item.url })),
         orgOtherImg: values?.orgOtherImg?.map(item => ({ url: item.url })),
@@ -56,6 +58,21 @@ const EditOrg = memo(({ id, onClose }: IProp) => {
     [data],
   )
 
+  //控制表单经纬度
+  const handleFormChange = changedValues => {
+    const { longitude, latitude } = changedValues
+    if (longitude !== undefined) {
+      form.setFieldsValue({
+        longitude,
+      })
+    }
+    if (latitude !== undefined) {
+      form.setFieldsValue({
+        latitude,
+      })
+    }
+  }
+
   return (
     <Drawer
       title="编辑门店信息"
@@ -78,7 +95,7 @@ const EditOrg = memo(({ id, onClose }: IProp) => {
           rowProps={{
             gutter: 20,
           }}
-          formRef={formRef}
+          form={form}
           submitter={{
             resetButtonProps: {
               style: {
@@ -94,6 +111,7 @@ const EditOrg = memo(({ id, onClose }: IProp) => {
           }}
           initialValues={initialValues}
           loading={loading}
+          onValuesChange={handleFormChange}
         >
           <ProForm.Group>
             <ProFormField
@@ -127,6 +145,17 @@ const EditOrg = memo(({ id, onClose }: IProp) => {
               rules={[{ required: true }]}
               placeholder="请输入手机号"
             />
+          </ProForm.Group>
+          <ProForm.Group>
+            <ProFormField label="地图选点" name="map">
+              <MapComponent form={form} />
+            </ProFormField>
+            <ProFormText
+              label="地址"
+              name="address"
+              colProps={{ xl: 8, md: 12 }}
+              rules={[{ required: true }]}
+            />
             <ProFormText
               label="经度"
               name="longitude"
@@ -142,12 +171,6 @@ const EditOrg = memo(({ id, onClose }: IProp) => {
               placeholder="请输入纬度"
             />
           </ProForm.Group>
-          <ProFormText
-            label="地址"
-            name="address"
-            colProps={{ xl: 8, md: 12 }}
-            rules={[{ required: true }]}
-          />
           <ProFormTextArea
             label="门店简介"
             name="description"

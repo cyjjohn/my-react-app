@@ -18,6 +18,7 @@ export const useOrganizations = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE, isSa
 
 export const useOrganization = (id: string) => {
   const { loading, data } = useQuery<TOrgQuery>(GET_ORG, {
+    fetchPolicy: 'network-only',
     variables: {
       id,
     },

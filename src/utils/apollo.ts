@@ -37,7 +37,7 @@ const authLink = setContext((_, { headers }) => {
 export const client = new ApolloClient({
   link: ApolloLink.from([authLink, httpLink]),
   cache: new InMemoryCache({
-    addTypename: false,
+    addTypename: false, //去掉接口中的typename
   }),
 })
 
