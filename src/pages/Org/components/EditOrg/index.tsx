@@ -58,21 +58,6 @@ const EditOrg = memo(({ id, onClose }: IProp) => {
     [data],
   )
 
-  //控制表单经纬度
-  const handleFormChange = changedValues => {
-    const { longitude, latitude } = changedValues
-    if (longitude !== undefined) {
-      form.setFieldsValue({
-        longitude,
-      })
-    }
-    if (latitude !== undefined) {
-      form.setFieldsValue({
-        latitude,
-      })
-    }
-  }
-
   return (
     <Drawer
       title="编辑门店信息"
@@ -111,7 +96,6 @@ const EditOrg = memo(({ id, onClose }: IProp) => {
           }}
           initialValues={initialValues}
           loading={loading}
-          onValuesChange={handleFormChange}
         >
           <ProForm.Group>
             <ProFormField

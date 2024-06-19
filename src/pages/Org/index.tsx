@@ -108,7 +108,7 @@ const Org = () => {
           grid={{ gutter: 16, column: 2 }}
           dataSource={datasource}
         />
-        {showEdit && <EditOrg id={curId} open={showEdit} onClose={onCloseHandler} />}
+        {showEdit && <EditOrg id={curId} onClose={onCloseHandler} />}
       </PageContainer>
     </div>
   )
