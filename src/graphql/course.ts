@@ -36,6 +36,11 @@ export const GET_COURSE = gql`
         reserveInfo
         refundInfo
         otherInfo
+        coverUrl
+        teachers {
+          id
+          name
+        }
         reducibleTime {
           week
           orderTime {

@@ -45,11 +45,17 @@ export const useCourse = () => {
 
   const getCourse = async (id: string): Promise<ICourse> => {
     const res = await get({
+      fetchPolicy: 'network-only',
       variables: {
         id,
       },
     })
-    return res.data.getCourseInfo.data as ICourse
+    //图片数据处理
+    const newData = {
+      ...res?.data.getCourseInfo.data,
+      coverUrl: [{ url: res?.data?.getCourseInfo.data.coverUrl }],
+    }
+    return newData as ICourse
   }
 
   return {

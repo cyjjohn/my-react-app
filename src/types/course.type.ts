@@ -1,4 +1,5 @@
 import { IPage } from './page.type'
+import { ITeacher } from './teacher.type'
 
 export type TWeek =
   | 'monday'
@@ -30,6 +31,8 @@ export interface ICourse {
   reserveInfo?: string
   refundInfo?: string
   otherInfo?: string
+  coverUrl?: string
+  teachers?: ITeacher[]
   reducibleTime?: IWeekCourse[]
   orgId?: string
 }

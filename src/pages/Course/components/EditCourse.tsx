@@ -1,8 +1,11 @@
+import OSSImageUpload from '@/components/OSSImageUpload'
+import TeacherSelect from '@/components/TeacherSelect'
 import { useCourse, useEditCourseInfo } from '@/services/course'
 import { TBaseCourse } from '@/types/course.type'
 import {
   ProForm,
   ProFormDigit,
+  ProFormField,
   ProFormInstance,
   ProFormText,
   ProFormTextArea,
@@ -29,7 +32,16 @@ const EditCourse = memo(({ id, onClose }: IProps) => {
     ;(async () => {
       if (id) {
         const res = await getCourse(id)
-        formRef.current?.setFieldsValue(res)
+        //转换antd select组件所需的字段key、value、label
+        const value = {
+          ...res,
+          teachers: res.teachers?.map(item => ({
+            key: item.id,
+            value: item.id,
+            label: item.name,
+          })),
+        }
+        formRef.current?.setFieldsValue(value)
       }
     })()
   }, [id])
@@ -37,7 +49,15 @@ const EditCourse = memo(({ id, onClose }: IProps) => {
   const submit = async () => {
     const values = (await formRef.current?.validateFields()) as TBaseCourse
     if (values) {
-      edit(id, values, onClose)
+      const formData = {
+        ...values,
+        teachers: values?.teachers?.map(item => ({
+          name: item.label,
+          id: item.value,
+        })),
+        coverUrl: values?.coverUrl?.map(item => item.url).join(','),
+      } as TBaseCourse
+      edit(id, formData, onClose)
     }
   }
 
@@ -67,7 +87,13 @@ const EditCourse = memo(({ id, onClose }: IProps) => {
         }}
         loading={loading}
       >
+        <ProFormField label="封面图" name="coverUrl" rules={[{ required: true }]}>
+          <OSSImageUpload maxCount={1} label="上传封面" imgCropAspect={2 / 1} />
+        </ProFormField>
         <ProFormText label="课程名称" name="name" rules={[{ required: true }]} />
+        <ProFormField label="任课老师" name="teachers">
+          <TeacherSelect />
+        </ProFormField>
         <ProFormText label="课程描述" name="desc" rules={[{ required: true }]} />
         <ProForm.Group direction="vertical" rowProps={{ gutter: 20 }}>
           <ProFormDigit
