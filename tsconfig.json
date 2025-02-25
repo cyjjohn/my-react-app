@@ -14,6 +14,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "react", // 指定 React 的导入源
 
     /* Linting */
     "strict": true,

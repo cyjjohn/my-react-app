@@ -20,5 +20,5 @@ const MainLayout: FC = memo(() => {
     </div>
   )
 })
-
+MainLayout.displayName = 'MainLayout' // 用于显示组件名称
 export default MainLayout
