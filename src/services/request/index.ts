@@ -47,11 +47,11 @@ class Request {
           console.error(msg ?? 'An unknown error occurred')
           return Promise.reject(new Error(msg ?? 'An unknown error occurred'))
         }
-        if(data){
-          res.data = data;
-        }else{
-          console.warn("API returned null/undefined data, handling accordingly.");
-          res.data = null; // 或者采取其他适当的处理方式
+        if (data) {
+          res.data = data
+        } else {
+          console.warn('API returned null/undefined data, handling accordingly.')
+          res.data = null // 或者采取其他适当的处理方式
         }
         return res
       },
