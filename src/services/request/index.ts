@@ -2,12 +2,12 @@ import { getToken } from '@/utils/token'
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { BASE_URL, TIMEOUT } from './config'
 
-//根据实际后台标准数据来定义
-// export interface ResType {
-//   errno: number
-//   data?: ResDataType
-//   msg?: string
-// }
+// 根据实际后台标准数据来定义
+export interface ResType {
+  errno: number
+  data?: ResDataType
+  msg?: string
+}
 
 export type ResDataType = Record<string, unknown>
 
@@ -49,7 +49,8 @@ class Request {
           return Promise.reject(new Error(statusText ?? 'An unknown error occurred'))
         }
         //如果后台json数据有标准格式可再细化返回res.data中的内容
-        return res.data as ResDataType
+        //直接返回res.data，少一层嵌套
+        return res.data
       },
       err => Promise.reject(err),
     )

@@ -13,5 +13,5 @@ const Home: FC = memo(() => {
     </HomeWrapper>
   )
 })
-
+Home.displayName = 'Home'
 export default Home
