@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { visualizer } from 'rollup-plugin-visualizer'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -8,11 +9,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': '/src',
-      css: '/src/assets/css',
-      components: '/src/components',
-      utils: '/src/utils',
-      pages: '/src/pages',
+      // 确保与 tsconfig.json 中的路径一致
+      '@': path.resolve(__dirname, 'src'),
     },
   },
   server: {
@@ -21,7 +19,7 @@ export default defineConfig({
     proxy: {
       //代理实现跨域
       '^/api': {
-        target: 'http://localhost:3001',
+        target: 'http://localhost:8082',
         changeOrigin: true, //开启代理
         rewrite: path => path.replace(/^\/api/, ''), //去掉/api
       },

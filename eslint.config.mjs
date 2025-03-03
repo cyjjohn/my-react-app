@@ -45,6 +45,7 @@ export default [
     rules: {
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'react/react-in-jsx-scope': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 ]

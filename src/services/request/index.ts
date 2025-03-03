@@ -1,10 +1,11 @@
 import { getToken } from '@/utils/token'
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig, CancelTokenSource } from 'axios'
 import { BASE_URL, TIMEOUT } from './config'
 
 // 根据实际后台标准数据来定义
 export interface ResType {
-  errno: number
+  code: number
+  count?: number
   data?: ResDataType
   msg?: string
 }
@@ -12,7 +13,7 @@ export interface ResType {
 export type ResDataType = Record<string, unknown>
 
 const CancelToken = axios.CancelToken
-const pending = []
+const pending: CancelTokenSource[] = []
 
 class Request {
   instance: AxiosInstance
@@ -31,10 +32,10 @@ class Request {
         if (token) {
           config.headers.Authorization = `Bearer ${token}`
         }
-        config.cancelToken = new CancelToken(c => {
-          // executor 函数接收一个 cancel 函数作为参数
-          pending.push(c)
-        })
+        const source = CancelToken.source()
+        config.cancelToken = source.token
+        pending.push(source)
+
         return config
       },
       error => Promise.reject(error),

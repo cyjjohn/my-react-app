@@ -1,14 +1,19 @@
+import Login from '@/pages/Login/index.tsx'
 import { createBrowserRouter } from 'react-router-dom'
-import MainLayout from '../layouts/MainLayout'
+import AuthenticatedRoutes from './AuthenticatedRoutes.tsx'
 import { Home, NotFound } from './Lazy.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainLayout />,
+    element: <AuthenticatedRoutes />,
     children: [
       {
-        path: '/',
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/index',
         element: <Home />,
       },
     ],
