@@ -1400,7 +1400,6 @@ var drawChart = (function (exports) {
   	  const value = `[${args.join('-')}]`;
 
   	  try {
-  	    /* eslint-disable-next-line no-new */
   	    new RegExp(value);
   	  } catch (ex) {
   	    return args.map(v => utils.escapeRegex(v)).join('..');
@@ -3538,7 +3537,6 @@ var drawChart = (function (exports) {
               if (isModuleTree(node))
                   return 0;
               const meta = data.nodeMetas[data.nodeParts[node.uid].metaUid];
-              /* eslint-disable typescript/no-non-null-asserted-optional-chain typescript/no-extra-non-null-assertion */
               const bundleId = (_a = Object.entries(meta.moduleParts).find(([, uid]) => uid == node.uid)) === null || _a === void 0 ? void 0 : _a[0];
               const ownSize = getModuleSize(node, sizeProperty);
               const zoomMultiplier = getNodeSizeMultiplier(node);
@@ -3810,7 +3808,7 @@ var drawChart = (function (exports) {
         : (m = reRgbaPercent.exec(format)) ? rgba(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, m[4]) // rgb(100%, 0%, 0%, 1)
         : (m = reHslPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) // hsl(120, 50%, 50%)
         : (m = reHslaPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) // hsla(120, 50%, 50%, 1)
-        : named.hasOwnProperty(format) ? rgbn(named[format]) // eslint-disable-line no-prototype-builtins
+        : named.hasOwnProperty(format) ? rgbn(named[format])
         : format === "transparent" ? new Rgb(NaN, NaN, NaN, 0)
         : null;
   }
